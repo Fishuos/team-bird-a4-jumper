@@ -18,7 +18,7 @@ namespace MohawkGame2D
         /// </summary>
         public void Setup()
         {
-            Window.SetSize(600, 1150);
+            Window.SetSize(600, 800);
             Window.SetTitle("Jumper");
         }
 
@@ -28,8 +28,6 @@ namespace MohawkGame2D
         public void Update()
         {
             Window.ClearBackground(Color.OffWhite);
-
-            Draw.Rectangle(300, 400, 100, 150);
         }
     }
 
