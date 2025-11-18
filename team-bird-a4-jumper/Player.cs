@@ -24,26 +24,22 @@ namespace team_bird_a4_jumper
             Draw.Rectangle(player.X, player.Y,50,100);
             Movement();
             ApplyGravity();
-            ConstrainBallToScreen();
+            KeepPlayerOnScreen();
         }
         void ApplyGravity()
         {
-            //apply gravity to velocity
-            velocity += new Vector2(0, 10) * Time.DeltaTime;
-
-            //apply velocity to postion
-            player += velocity;
+            ;
 
         }
-        void ConstrainBallToScreen()
+        void KeepPlayerOnScreen()
         {
-            // is bottom of ball at or past edge of screen
+           
 
             if (player.Y + 100 >= Window.Height)
             {
                 velocity.Y = -velocity.Y;
 
-                velocity *= 0.8f;
+                velocity *= 0f;
 
 
                player.Y = Window.Height - 100;
@@ -71,9 +67,9 @@ namespace team_bird_a4_jumper
             {
                 player.X -= speed;
             }
-            if ( Input.IsKeyboardKeyDown(KeyboardInput.Space))
+            if ( Input.IsKeyboardKeyPressed(KeyboardInput.Space))
             {
-                player.Y -= speed;
+                player.Y += 5 * 0.05f;
             }
         }
     }
