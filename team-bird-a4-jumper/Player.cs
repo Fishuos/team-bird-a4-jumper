@@ -12,8 +12,9 @@ namespace team_bird_a4_jumper
 {
     internal class Player
     {
-        Vector2 velocity;
+        public Vector2 velocity;
         Vector2 player = new  Vector2(300, 900);
+        int playerSize = 50;
         public void Setup()
         {
 
@@ -21,14 +22,18 @@ namespace team_bird_a4_jumper
 
         public void Update()
         {
-            Draw.Rectangle(player.X, player.Y,50,100);
+            Draw.Rectangle(player.X, player.Y,playerSize,100);
             Movement();
             ApplyGravity();
             KeepPlayerOnScreen();
         }
         void ApplyGravity()
         {
-            ;
+            //apply gravity to velocity
+            velocity += new Vector2(0, 10) * Time.DeltaTime;
+
+            //apply velocity to postion
+            player += velocity;
 
         }
         void KeepPlayerOnScreen()
@@ -45,6 +50,27 @@ namespace team_bird_a4_jumper
                player.Y = Window.Height - 100;
 
             }
+           
+            
+            if (player.X < -45)
+            {
+                player.X = 625;
+            }
+           
+            if (player.X > 625)
+            {
+                player.X = -45;
+            }
+
+
+           
+
+
+            
+
+
+           
+            
 
 
         }
@@ -69,7 +95,7 @@ namespace team_bird_a4_jumper
             }
             if ( Input.IsKeyboardKeyPressed(KeyboardInput.Space))
             {
-                player.Y += 5 * 0.05f;
+                velocity.Y -= 8;
             }
         }
     }
