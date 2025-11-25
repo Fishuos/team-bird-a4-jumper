@@ -13,6 +13,7 @@ namespace MohawkGame2D
     {
         // Place your variables here:
        Player player = new Player();
+       Platform platform = new Platform();
 
         /// <summary>
         ///     Setup runs once before the game loop begins.
@@ -21,7 +22,7 @@ namespace MohawkGame2D
         {
             Window.SetSize(600, 1000);
             Window.SetTitle("Jumper");
-            player.Setup();
+            player.Setup();      
         }
 
         /// <summary>
@@ -31,8 +32,7 @@ namespace MohawkGame2D
         {
             Window.ClearBackground(Color.OffWhite);
             player.Update();
-
-
+            platform.Update();
         }
     }
 
