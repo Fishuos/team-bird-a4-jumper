@@ -12,6 +12,7 @@ namespace team_bird_a4_jumper
 {
     internal class Player
     {
+        public bool isInAir;
         public Vector2 velocity;
         Vector2 player = new  Vector2(300, 900);
         int playerSize = 50;
@@ -55,6 +56,7 @@ namespace team_bird_a4_jumper
             if (player.X < -45)
             {
                 player.X = 625;
+               
             }
            
             if (player.X > 625)
@@ -95,7 +97,20 @@ namespace team_bird_a4_jumper
             }
             if ( Input.IsKeyboardKeyPressed(KeyboardInput.Space))
             {
-                velocity.Y -= 8;
+                if (isInAir == false)
+                {
+                    velocity.Y -= 8;
+                }
+                
+            }
+
+            if (velocity.Y == 0)
+            {
+                isInAir = false;
+            }
+            else
+            {
+                isInAir = true;
             }
         }
     }
