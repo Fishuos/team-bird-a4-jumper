@@ -71,6 +71,7 @@ namespace team_bird_a4_jumper
                 isMoving = true;
             }
 
+         
             if (Input.IsKeyboardKeyPressed(KeyboardInput.Space))
             {
                 if (isInAir == false)
@@ -83,6 +84,17 @@ namespace team_bird_a4_jumper
             {
                 isMoving = false;
             }
+           
+            if (velocity.Y == 0)
+            {
+                isInAir = false;
+            }
+            else
+            {
+                isInAir = true;
+            }
+
+          
         } 
 
         void ApplyGravity()
