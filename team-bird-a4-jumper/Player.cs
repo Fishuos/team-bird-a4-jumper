@@ -16,10 +16,6 @@ namespace team_bird_a4_jumper
         public Vector2 velocity;
 
         //block variables
-        private float speed = 5f;
-        private float minX = 100f;
-        private float maxX = 400f;
-        private int direction = 1;
         float blockX = 100;
         float blockY = 900;
         float blockWidth = 160;
@@ -44,30 +40,31 @@ namespace team_bird_a4_jumper
             ApplyGravity();
             KeepPlayerOnScreen();
             DrawPlatform();
-            //Collision();
-            //PlatformMovement();
-        }
-        void DrawPlatform()
-        {
-            Draw.Rectangle(blockX, blockY, blockWidth, blockHeight);
+            Collision();
         }
 
-       /* void PlatformMovement()
+       public void Movement()
         {
-            block.X += speed * direction;
+            int speed = 5;
 
-            if (block.X >= maxX || block.X <= minX)
+            if (Input.IsKeyboardKeyDown(KeyboardInput.D))
             {
-                direction *= -1;
+                player.X += speed;
             }
-        }*/
 
+            if (Input.IsKeyboardKeyDown(KeyboardInput.A))
+            {
+                player.X -= speed;
+            }
 
-
-        public void DrawPlayer()
-        {
-            Draw.Rectangle(player.X, player.Y, playerWidth, playerHeight);
-        }
+            if (Input.IsKeyboardKeyPressed(KeyboardInput.Space))
+            {
+                if (isInAir == false)
+                {
+                    velocity.Y -= 8;
+                }
+            }
+        } 
 
         void ApplyGravity()
         {
@@ -76,6 +73,26 @@ namespace team_bird_a4_jumper
 
             //apply velocity to postion
             player += velocity;
+
+        }
+
+        void Collision()
+        {
+            bool isColliding =
+                player.X < blockX + blockWidth &&
+                player.X + playerWidth > blockX &&
+                player.Y < blockY + blockHeight &&
+                player.Y + playerHeight > blockY;
+
+            if (isColliding)
+            {
+                if (velocity.Y > 0 && player.Y + playerHeight <= blockY + 10) 
+                { 
+                    player.Y = blockY - playerHeight;
+                    velocity.Y = 0;
+                    isInAir = false;
+                }
+            }
         }
 
         void KeepPlayerOnScreen()
@@ -100,37 +117,14 @@ namespace team_bird_a4_jumper
             }
         }
 
-        public void Movement()
+        void DrawPlatform()
         {
-            int speed = 5;
+            Draw.Rectangle(blockX, blockY, blockWidth, blockHeight);
+        }
 
-            if (Input.IsKeyboardKeyDown(KeyboardInput.D))
-            {
-                player.X += speed;
-            }
-
-            if (Input.IsKeyboardKeyDown(KeyboardInput.A))
-            {
-                player.X -= speed;
-            }
-
-            if (Input.IsKeyboardKeyPressed(KeyboardInput.Space))
-            {
-                if (isInAir == false)
-                {
-                    velocity.Y -= 8;
-                }
-            }
-
-            if (velocity.Y == 0)
-            {
-                isInAir = false;
-            }
-
-            else
-            {
-                isInAir = true;
-            }
-        } 
+        public void DrawPlayer()
+        {
+            Draw.Rectangle(player.X, player.Y, playerWidth, playerHeight);
+        }
     }
 }
