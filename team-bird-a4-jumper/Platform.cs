@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-
+/*
 namespace team_bird_a4_jumper
 {
     internal class Platform
@@ -13,9 +13,11 @@ namespace team_bird_a4_jumper
         private float speed = 5f;
         private float minX = 100f;
         private float maxX = 400f;
-        private int direction = 1;
-
+        private int direction = 1;  
+        Player player = new Player();
         Vector2 block = new Vector2(100, 900);
+        float playerHeight = 50;
+      
 
         public void Update() 
         {
@@ -27,6 +29,14 @@ namespace team_bird_a4_jumper
             }
 
             Draw.Capsule(block.X, block.Y, block.X + 100, block.Y, 30);
+            player.Update();
+        }
+        public void Collision()
+        {
+            if (player.Y + playerHeight > block.Y)
+            {
+                player.Y = block.Y - playerHeight;
+            }
         }
     }
-}
+}*/
