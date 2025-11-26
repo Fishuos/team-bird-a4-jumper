@@ -21,12 +21,24 @@ namespace team_bird_a4_jumper
         float blockWidth = 160;
         float blockHeight = 40;
 
+
         //player variables
         Vector2 player = new(300, 900);
         //float playerX = 300;
         //float playerY = 900;
         float playerWidth = 50;
         float playerHeight = 100;
+        public bool isColliding;
+        bool isMoving;
+
+        //move left and right
+        private float speed = 5f;
+        private float minX = 100f;
+        private float maxX = 400f;
+        private int direction = 1;
+        
+        Vector2 block = new Vector2(100, 900);
+        
 
         public void Setup()
         {
@@ -35,11 +47,11 @@ namespace team_bird_a4_jumper
 
         public void Update()
         {
+            DrawPlatform();
             DrawPlayer();
             Movement();
             ApplyGravity();
             KeepPlayerOnScreen();
-            DrawPlatform();
             Collision();
         }
 
@@ -50,11 +62,13 @@ namespace team_bird_a4_jumper
             if (Input.IsKeyboardKeyDown(KeyboardInput.D))
             {
                 player.X += speed;
+                isMoving = true;
             }
 
             if (Input.IsKeyboardKeyDown(KeyboardInput.A))
             {
                 player.X -= speed;
+                isMoving = true;
             }
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.Space))
@@ -62,7 +76,12 @@ namespace team_bird_a4_jumper
                 if (isInAir == false)
                 {
                     velocity.Y -= 8;
+                    isMoving = true;
                 }
+            }
+            else
+            {
+                isMoving = false;
             }
         } 
 
@@ -78,11 +97,11 @@ namespace team_bird_a4_jumper
 
         void Collision()
         {
-            bool isColliding =
-                player.X < blockX + blockWidth &&
-                player.X + playerWidth > blockX &&
-                player.Y < blockY + blockHeight &&
-                player.Y + playerHeight > blockY;
+           isColliding =
+                player.X < block.X + blockWidth &&
+                player.X + playerWidth > block.X &&
+                player.Y < block.Y + blockHeight &&
+                player.Y + playerHeight > block.Y;
 
             if (isColliding)
             {
@@ -119,11 +138,32 @@ namespace team_bird_a4_jumper
 
         void DrawPlatform()
         {
-            Draw.Rectangle(blockX, blockY, blockWidth, blockHeight);
+            block.X += speed * direction;
+
+            if (block.X >= maxX || block.X <= minX)
+            {
+                direction *= -1;
+            }
+
+            Draw.Rectangle(block.X, block.Y, blockWidth, blockHeight);
         }
 
         public void DrawPlayer()
         {
+            if (isMoving == false)
+            {
+
+                if (isColliding)
+                {
+                    player.X += speed * direction;
+
+                    if (player.X >= maxX || player.X <= minX)
+                    {
+                        direction *= -1;
+                    }
+
+                }
+            }
             Draw.Rectangle(player.X, player.Y, playerWidth, playerHeight);
         }
     }
