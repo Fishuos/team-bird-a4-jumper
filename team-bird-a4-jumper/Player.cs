@@ -2,18 +2,18 @@
 using System;
 using System.Numerics;
 
-namespace team_bird_a4_jumper
+namespace MohawkGame2D
 {
     internal class Player
     {
         public bool isInAir;
         public Vector2 velocity;
 
-        //vairables
-        Vector2 player = new Vector2(300, 900);
-        float playerWidth = 50;
-        float playerHeight = 100;
-        public bool isColliding;
+        //player variables
+        public Vector2 player = new Vector2(300, 900);
+        public float playerWidth = 50;
+        public float playerHeight = 100;
+        bool isColliding;
         bool isMoving;
         float cameraY = 0f;
 
@@ -21,6 +21,7 @@ namespace team_bird_a4_jumper
         private float minX = 100f;
         private float maxX = 400f;
 
+        //platform variables
         float blockWidth = 160;
         float blockHeight = 40;
         Vector2[] platforms = new Vector2[5];
@@ -88,6 +89,7 @@ namespace team_bird_a4_jumper
             {
                 Vector2 block = platforms[i];
 
+                //bounds for collision
                 bool colliding =
                     player.X < block.X + blockWidth &&
                     player.X + playerWidth > block.X &&
@@ -98,6 +100,7 @@ namespace team_bird_a4_jumper
                 {
                     isColliding = true;
 
+                    //keep player on platform
                     if (velocity.Y > 0 && player.Y + playerHeight <= block.Y + blockHeight)
                     {
                         player.Y = block.Y - playerHeight;
@@ -155,12 +158,15 @@ namespace team_bird_a4_jumper
                 if (platforms[i].X >= maxX || platforms[i].X <= minX)
                     platformDirections[i] *= -1;
 
+                //draw platforms
+                Draw.FillColor = Color.Black;
                 Draw.Rectangle(platforms[i].X, platforms[i].Y + cameraY, blockWidth, blockHeight);
             }
         }
 
         public void DrawPlayer()
         {
+            Draw.FillColor = Color.Black;
             Draw.Rectangle(player.X, player.Y + cameraY, playerWidth, playerHeight);
         }
     }
