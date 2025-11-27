@@ -1,6 +1,6 @@
 Intructions:
-Press [SPACE] to jump.
-Press [A] to move left.
-Press [D] to move right.
-Jump on the moving platforms and collect coins.
-If you fall, you lose!
+1. Press [SPACE] to jump.
+2. Press [A] to move left.
+3. Press [D] to move right.
+4. Jump on the moving platforms and collect coins.
+5. If you fall, you lose!
