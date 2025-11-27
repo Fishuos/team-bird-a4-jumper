@@ -32,7 +32,7 @@ namespace MohawkGame2D
         {
             Window.ClearBackground(Color.OffWhite);
             player.Update();
-            platform.Update();
+           
         }
     }
 
