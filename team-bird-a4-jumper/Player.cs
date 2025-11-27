@@ -9,6 +9,7 @@ namespace team_bird_a4_jumper
         public bool isInAir;
         public Vector2 velocity;
 
+        //vairables
         Vector2 player = new Vector2(300, 900);
         float playerWidth = 50;
         float playerHeight = 100;
@@ -66,7 +67,7 @@ namespace team_bird_a4_jumper
 
             if (Input.IsKeyboardKeyPressed(KeyboardInput.Space) && !isInAir)
             {
-                velocity.Y = -8;
+                velocity.Y = -8.2f;
                 isMoving = true;
             }
 
