@@ -102,7 +102,7 @@ namespace team_bird_a4_jumper
             //apply gravity to velocity
             velocity += new Vector2(0, 10) * Time.DeltaTime;
 
-            //apply velocity to postion
+            //apply velocity to position
             player += velocity;
 
         }
