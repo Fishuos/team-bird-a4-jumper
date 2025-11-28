@@ -20,9 +20,7 @@ namespace MohawkGame2D
         public void Update()
         {
             Window.ClearBackground(Color.OffWhite);
-            player.Update();
-            
+            player.Update();            
         }
     }
-
 }

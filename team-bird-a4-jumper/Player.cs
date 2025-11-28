@@ -56,19 +56,20 @@ namespace team_bird_a4_jumper
         {
             isMoving = false;
 
-
             //move right
             if (Input.IsKeyboardKeyDown(KeyboardInput.D))
             {
                 player.X += speed;
                 isMoving = true;
             }
+
             //move left
             if (Input.IsKeyboardKeyDown(KeyboardInput.A))
             {
                 player.X -= speed;
                 isMoving = true;
             }
+
             //jump
             if (Input.IsKeyboardKeyPressed(KeyboardInput.Space) && !isInAir)
             {
@@ -77,9 +78,6 @@ namespace team_bird_a4_jumper
             }
 
             isInAir = velocity.Y != 0;
-
-
-           
         }
 
         void ApplyGravity()
@@ -106,7 +104,7 @@ namespace team_bird_a4_jumper
                 {
                     isColliding = true;
 
-                   
+
                     if (velocity.Y > 0 && player.Y + playerHeight <= block.Y + blockHeight)
                     {
                         player.Y = block.Y - playerHeight;
@@ -114,15 +112,14 @@ namespace team_bird_a4_jumper
                         isInAir = false;
                         standingPlatform = i;
                     }
-
                 }
+
                 else
                 {
                     if (standingPlatform == i)
                     {
                         standingPlatform = -1;
                     }
-                         
                 }
             }
         }
@@ -130,12 +127,10 @@ namespace team_bird_a4_jumper
         void KeepPlayerOnScreen()
         {
             //resets everything if you fall off screen
-            if (player.Y + playerHeight >= Window.Height + 200) 
+            if (player.Y + playerHeight >= Window.Height + 200)
             {
                 Reset();
             }
-
-
 
             //keeps player on screen at the start of the game
             if (isInAir == false)
@@ -154,7 +149,8 @@ namespace team_bird_a4_jumper
                     player.X = -45;
             }
         }
-      // creates a camera follow effect
+
+        // creates a camera follow effect
         void WorldMove()
         {
             float screenFollowAt = Window.Height * 0.7f; //where camera starts moving
@@ -192,16 +188,17 @@ namespace team_bird_a4_jumper
             {
 
                 float x = MohawkGame2D.Random.Integer(25, 425);
-                float y = 900 - i * 200; 
+                float y = 900 - i * 200;
                 platforms[i] = new Vector2(x, y);
                 platformDirections[i] = 1;
             }
         }
-        void UpdatePlatforms() //
+
+        void UpdatePlatforms()
         {
             for (int i = 0; i < platforms.Length; i++)
             {
-            //moves platforms back and forth
+                //moves platforms back and forth
                 platforms[i].X += speed * platformDirections[i];
 
                 if (platforms[i].X >= maxX || platforms[i].X <= minX)
