@@ -8,7 +8,7 @@ namespace MohawkGame2D
 {
     public class Game
     {
-        Texture2D scoreTeller;
+        Texture2D background;
 
         Player player = new Player();
         public void Setup()
@@ -16,16 +16,17 @@ namespace MohawkGame2D
             Window.SetSize(600, 1000);
             Window.SetTitle("Jumper");
             player.Setup();
-            scoreTeller = Graphics.LoadTexture(.. / .. / .. / .. / assets / graphics / score teller.png);
+            background = Graphics.LoadTexture("../../../../assets/graphics/background.png");
         }
 
         public void Update()
         {
-            Window.ClearBackground(Color.OffWhite);
-            player.Update();
+            Window.ClearBackground(Color.OffWhite);       
+            Graphics.Draw(background, 6, 0);  
             string score = $"{player.score}";
-            Text.Color = Color.Green;
-            Text.Draw($"Score: {score}", 450, 25);
+            Text.Color = Color.Black;
+            Text.Draw($"Score: {score}", 20, 20);            
+            player.Update();     
         }
     }
 }
