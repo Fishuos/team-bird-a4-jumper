@@ -15,8 +15,6 @@ namespace MohawkGame2D
         public bool isColliding;
         bool isMoving;
         float cameraY = 0f;
-        int standingPlatform = -1;
-      public  int score = 0;
 
         public int score = 0;
 
@@ -187,25 +185,6 @@ namespace MohawkGame2D
                     platforms[i].X = MohawkGame2D.Random.Integer(50, 450);
                     platforms[i].Y -= 800;
                 }
-            }
-        }
-
-        public void Reset()
-        {
-            //resets everything
-            player = new Vector2(300, 900);
-            velocity = Vector2.Zero;
-            cameraY = 0f;
-            isInAir = false;
-            score = 0;
-
-            for (int i = 0; i < platforms.Length; i++)
-            {
-
-                float x = MohawkGame2D.Random.Integer(25, 425);
-                float y = 900 - i * 200;
-                platforms[i] = new Vector2(x, y);
-                platformDirections[i] = 1;
             }
         }
 
