@@ -17,6 +17,7 @@ namespace team_bird_a4_jumper
         bool isMoving;
         float cameraY = 0f;
         int standingPlatform = -1;
+      public  int score = 0;
 
         //platform move info
         private float speed = 5f;
@@ -110,7 +111,19 @@ namespace team_bird_a4_jumper
                         player.Y = block.Y - playerHeight;
                         velocity.Y = 0;
                         isInAir = false;
-                        standingPlatform = i;
+                        
+
+                        if (standingPlatform != i)
+                        {
+                            standingPlatform = i;
+                          
+                          if (velocity.Y == 0)
+                            {
+                                score += 1;
+                            }
+                             
+                        }
+
                     }
                 }
 
@@ -183,6 +196,7 @@ namespace team_bird_a4_jumper
             velocity = Vector2.Zero;
             cameraY = 0f;
             isInAir = false;
+            score = 0;
 
             for (int i = 0; i < platforms.Length; i++)
             {
