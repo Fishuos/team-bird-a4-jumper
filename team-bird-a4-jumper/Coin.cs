@@ -13,6 +13,9 @@ namespace MohawkGame2D
         float coinWidth = 20;
         float coinHeight = 20;
 
+        Vector2 playerPos = new Vector2(0, 0);
+
+
         public void Setup()
         {
             for (int i = 0; i < coinHitbox.Length; i++)
@@ -24,17 +27,11 @@ namespace MohawkGame2D
         }
 
         public void Update()
-        {
-            DrawCoin();
-            Collision(Vector2 playerPos, float playerWidth, float playerHeight);
-        }
-        void DrawCoinHitbox()
-        {
-            //draw temporary hitbox
-            Draw.FillColor = Color.Black;
-            Draw.Square(coinPosition.X - 20, coinPosition.Y - 20, 40);
-        }
-
+        {           
+            DrawCoinHitbox();
+            DrawCoin(); 
+            Collision(playerPos, 0, 0);
+        }       
         public void DrawCoin()
         {
             //draw coin
@@ -42,7 +39,14 @@ namespace MohawkGame2D
             Draw.Circle(coinPosition, 20);
         }
 
-        public void Collision()
+        void DrawCoinHitbox()
+        {
+            //draw temporary hitbox
+            Draw.FillColor = Color.Black;
+            Draw.Square(coinPosition.X - 20, coinPosition.Y - 20, 40);
+        }
+
+       public void Collision(Vector2 playerPos, float x, float y)
         {
             isColliding = false;
 
@@ -63,7 +67,6 @@ namespace MohawkGame2D
                     coinHitbox[i].Y -= 800;
                 }
             }
-
         }
     }
 }

@@ -14,6 +14,7 @@ namespace MohawkGame2D
             Window.SetSize(600, 1000);
             Window.SetTitle("Jumper");
             player.Setup();
+            coin.Setup();
         }
 
         public void Update()
@@ -23,5 +24,4 @@ namespace MohawkGame2D
             player.Update();
         }
     }
-
 }
