@@ -1,5 +1,4 @@
-﻿using MohawkGame2D;
-using System;
+﻿using System;
 using System.Numerics;
 
 namespace MohawkGame2D
@@ -9,29 +8,33 @@ namespace MohawkGame2D
         public bool isInAir;
         public Vector2 velocity;
 
-        //player variables
-        public Vector2 player = new Vector2(300, 900);
-        public float playerWidth = 50;
-        public float playerHeight = 100;
-        bool isColliding;
+        //variables
+        Vector2 player = new Vector2(300, 900);
+        float playerWidth = 50;
+        float playerHeight = 100;
+        public bool isColliding;
         bool isMoving;
         float cameraY = 0f;
 
-        private float speed = 5f;
-        private float minX = 100f;
-        private float maxX = 400f;
+        public int score = 0;
 
-        //platform variables
+        //platform move info
+        private float speed = 5f;
+        private float minX = 50f;
+        private float maxX = 550f;
+
+        //Collision variables and platform
         float blockWidth = 160;
         float blockHeight = 40;
         Vector2[] platforms = new Vector2[5];
         int[] platformDirections = new int[5];
+        int standingPlatform = -1;
 
         public void Setup()
         {
             for (int i = 0; i < platforms.Length; i++)
             {
-                float x = MohawkGame2D.Random.Integer(50, 450);
+                float x = MohawkGame2D.Random.Integer(25, 425);
                 float y = 900 - i * 200;
                 platforms[i] = new Vector2(x, y);
                 platformDirections[i] = 1;
@@ -54,18 +57,21 @@ namespace MohawkGame2D
         {
             isMoving = false;
 
+            //move right
             if (Input.IsKeyboardKeyDown(KeyboardInput.D))
             {
                 player.X += speed;
                 isMoving = true;
             }
 
+            //move left
             if (Input.IsKeyboardKeyDown(KeyboardInput.A))
             {
                 player.X -= speed;
                 isMoving = true;
             }
 
+            //jump
             if (Input.IsKeyboardKeyPressed(KeyboardInput.Space) && !isInAir)
             {
                 velocity.Y = -8.2f;
@@ -89,7 +95,7 @@ namespace MohawkGame2D
             {
                 Vector2 block = platforms[i];
 
-                //bounds for collision
+                //check bounds
                 bool colliding =
                     player.X < block.X + blockWidth &&
                     player.X + playerWidth > block.X &&
@@ -106,6 +112,25 @@ namespace MohawkGame2D
                         player.Y = block.Y - playerHeight;
                         velocity.Y = 0;
                         isInAir = false;
+
+                        if (standingPlatform != i)
+                        {
+                            standingPlatform = i;
+
+                            //change score
+                            if (velocity.Y == 0)
+                            {
+                                score += 1;
+                            }
+                        }
+                    }
+                }
+
+                else
+                {
+                    if (standingPlatform == i)
+                    {
+                        standingPlatform = -1;
                     }
                 }
             }
@@ -113,39 +138,72 @@ namespace MohawkGame2D
 
         void KeepPlayerOnScreen()
         {
-            if (player.Y + playerHeight >= Window.Height)
+            //resets everything if you fall off screen
+            if (player.Y + playerHeight >= Window.Height + 200)
             {
-                velocity.Y = 0;
-                player.Y = Window.Height - playerHeight;
+                Reset();
             }
 
-            if (player.X < -45)
-                player.X = 625;
+            //keeps player on screen at the start of the game
+            if (isInAir == false)
+            {
+                if (player.Y + playerHeight >= Window.Height)
+                {
+                    velocity.Y = 0;
+                    player.Y = Window.Height - playerHeight;
+                }
 
-            if (player.X > 625)
-                player.X = -45;
+                //lets you teleport from one side to the other
+                if (player.X < -45)
+                    player.X = 625;
+
+                if (player.X > 625)
+                    player.X = -45;
+            }
         }
 
+        // creates a camera follow effect
         void WorldMove()
         {
-            float screenFollowAt = Window.Height * 0.7f;
+            float screenFollowAt = Window.Height * 0.7f; //where camera starts moving
 
             if (player.Y + cameraY < screenFollowAt)
             {
-                float difference = screenFollowAt - (player.Y + cameraY);
-                cameraY += difference;
+                float follow = screenFollowAt - (player.Y + cameraY);
+                cameraY += follow; // moves camera 
             }
         }
 
         void SpawnPlatforms()
         {
+            //spanws platforms above player
             for (int i = 0; i < platforms.Length; i++)
             {
-                if (player.Y + 200 < platforms[i].Y)
+                if (player.Y + 300 < platforms[i].Y)
                 {
+                    //spawns at random x, and above 800
                     platforms[i].X = MohawkGame2D.Random.Integer(50, 450);
                     platforms[i].Y -= 800;
                 }
+            }
+        }
+
+        public void Reset()
+        {
+            //resets everything
+            player = new Vector2(300, 900);
+            velocity = Vector2.Zero;
+            cameraY = 0f;
+            isInAir = false;
+            score = 0;
+
+            for (int i = 0; i < platforms.Length; i++)
+            {
+
+                float x = MohawkGame2D.Random.Integer(25, 425);
+                float y = 900 - i * 200;
+                platforms[i] = new Vector2(x, y);
+                platformDirections[i] = 1;
             }
         }
 
@@ -153,20 +211,23 @@ namespace MohawkGame2D
         {
             for (int i = 0; i < platforms.Length; i++)
             {
+                //moves platforms back and forth
                 platforms[i].X += speed * platformDirections[i];
 
                 if (platforms[i].X >= maxX || platforms[i].X <= minX)
                     platformDirections[i] *= -1;
 
-                //draw platforms
-                Draw.FillColor = Color.Black;
                 Draw.Rectangle(platforms[i].X, platforms[i].Y + cameraY, blockWidth, blockHeight);
+
+                if (standingPlatform == i)
+                {
+                    player.X += speed * platformDirections[i]; //moves player with platform
+                }
             }
         }
 
         public void DrawPlayer()
         {
-            Draw.FillColor = Color.Black;
             Draw.Rectangle(player.X, player.Y + cameraY, playerWidth, playerHeight);
         }
     }
