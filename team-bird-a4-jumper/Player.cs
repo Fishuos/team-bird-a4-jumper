@@ -1,8 +1,7 @@
-﻿using MohawkGame2D;
-using System;
+﻿using System;
 using System.Numerics;
 
-namespace team_bird_a4_jumper
+namespace MohawkGame2D
 {
     internal class Player
     {
@@ -19,6 +18,8 @@ namespace team_bird_a4_jumper
         int standingPlatform = -1;
       public  int score = 0;
 
+        public int score = 0;
+
         //platform move info
         private float speed = 5f;
         private float minX = 50f;
@@ -29,6 +30,7 @@ namespace team_bird_a4_jumper
         float blockHeight = 40;
         Vector2[] platforms = new Vector2[5];
         int[] platformDirections = new int[5];
+        int standingPlatform = -1;
 
         public void Setup()
         {
@@ -95,6 +97,7 @@ namespace team_bird_a4_jumper
             {
                 Vector2 block = platforms[i];
 
+                //check bounds
                 bool colliding =
                     player.X < block.X + blockWidth &&
                     player.X + playerWidth > block.X &&
@@ -105,25 +108,23 @@ namespace team_bird_a4_jumper
                 {
                     isColliding = true;
 
-
+                    //keep player on platform
                     if (velocity.Y > 0 && player.Y + playerHeight <= block.Y + blockHeight)
                     {
                         player.Y = block.Y - playerHeight;
                         velocity.Y = 0;
                         isInAir = false;
-                        
 
                         if (standingPlatform != i)
                         {
                             standingPlatform = i;
-                          
-                          if (velocity.Y == 0)
+
+                            //change score
+                            if (velocity.Y == 0)
                             {
                                 score += 1;
                             }
-                             
                         }
-
                     }
                 }
 
@@ -186,6 +187,25 @@ namespace team_bird_a4_jumper
                     platforms[i].X = MohawkGame2D.Random.Integer(50, 450);
                     platforms[i].Y -= 800;
                 }
+            }
+        }
+
+        public void Reset()
+        {
+            //resets everything
+            player = new Vector2(300, 900);
+            velocity = Vector2.Zero;
+            cameraY = 0f;
+            isInAir = false;
+            score = 0;
+
+            for (int i = 0; i < platforms.Length; i++)
+            {
+
+                float x = MohawkGame2D.Random.Integer(25, 425);
+                float y = 900 - i * 200;
+                platforms[i] = new Vector2(x, y);
+                platformDirections[i] = 1;
             }
         }
 
