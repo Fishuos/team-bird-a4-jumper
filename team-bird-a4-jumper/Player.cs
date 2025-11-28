@@ -197,7 +197,7 @@ namespace team_bird_a4_jumper
                 platformDirections[i] = 1;
             }
         }
-        void UpdatePlatforms()
+        void UpdatePlatforms() //
         {
             for (int i = 0; i < platforms.Length; i++)
             {
